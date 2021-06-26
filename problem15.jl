@@ -1,13 +1,16 @@
-using Printf
+dim = 21
 
-a = BigInt(2)^1000
+a = ones(Int64, dim, dim)
 
-str = @sprintf "%d" a
-
-sum = 0
-for i in str
-    global sum
-    sum += parse(Int64, i)
+for i in 1:dim
+    a[i, 1] = 1
+    a[1, i] = 1
 end
 
-println(sum)
+for i in 2:dim
+    for j in 2:dim
+        a[i, j] = a[i-1, j] + a[i, j-1]
+    end
+end
+
+println(a[dim, dim])
