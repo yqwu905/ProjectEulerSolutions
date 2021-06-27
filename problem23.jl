@@ -1,4 +1,4 @@
-using ProgressMeter
+upperLimit = 20161
 
 function factor(a)
     res = [1]
@@ -17,22 +17,25 @@ isAbundant(x) = factor(x)>x
 
 abundantList = Int64[]
 
-@time for i in 1:28123
+for i in 1:upperLimit
     if isAbundant(i)
         push!(abundantList, i)
     end
 end
 
 checkedList = Dict()
+idx = 0
 
-@time for i in 1:length(abundantList)
-    for j in i:length(abundantList)
-        a = abundantList[i] + abundantList[j]
-        if a > 28123
+for i in abundantList
+    global idx
+    idx += 1
+    for j in abundantList[idx:end]
+        a = i + j
+        if a > upperLimit
             break
         end
         checkedList[a] = true
     end
 end
 
-@time println(sum(filter!(x->!(x in keys(checkedList)), [i for i in 1:28123])))
+println(sum(filter!(x->!(x in keys(checkedList)), [i for i in 1:upperLimit])))
